@@ -27,16 +27,22 @@ ul#tabnav li { /* do not change */
 display: inline;
 }
 
-ul#tabnav li.selected { /* settings for selected tab */
-border-bottom: 1px solid #fff; /* set border color to page background color */
-background-color: #fff; /* set background color to match above border color */
+ul#tabnav li.selected, ul#tabnav li:hover { /* settings for selected tab */
+border-bottom: 1px solid #65c400; /* set border color to page background color */
+background-color: #65c400; /* set background color to match above border color */
+color: #fff; /* set selected and hovered tab link color as desired */
 }
 
+ul#tabnav li.selected[test_result='failure'], ul#tabnav li[test_result='failure']:hover { /* settings for selected/hovered tab */
+border-bottom: 1px solid #c40d0d; /* set border color to page background color */
+background-color: #c40d0d; /* set background color to match above border color */
+color: #fff; /* set selected and hovered tab link color for 'failure' as desired */
+}
 
 ul#tabnav li { /* settings for all tab links */
 padding: 3px 4px; /* set padding (tab size) as desired; FIRST number must change with respect to padding-top (X) above */
 border: 1px solid #6c6; /* set border COLOR as desired; usually matches border color specified in #tabnav */
-background-color: #cfc; /* set unselected tab background color as desired */
+background-color: #b8ffc8; /* set unselected tab background color as desired */
 color: #666; /* set unselected tab link color as desired */
 margin-right: 0px; /* set additional spacing between tabs as desired */
 text-decoration: none;
@@ -44,8 +50,15 @@ border-bottom: none;
 cursor: pointer;
 }
 
-ul#tabnav li:hover { /* settings for hover effect */
-background: #afa; /* set desired hover color */
+ul#tabnav li[test_result='failure'] { /* settings for all tab links with failures */
+padding: 3px 4px; /* set padding (tab size) as desired; FIRST number must change with respect to padding-top (X) above */
+border: 1px solid #6c6; /* set border COLOR as desired; usually matches border color specified in #tabnav */
+background-color: #c6a8a8; /* set unselected tab background color for 'failure' as desired */
+color: #666; /* set unselected tab link color as desired */
+margin-right: 0px; /* set additional spacing between tabs as desired */
+text-decoration: none;
+border-bottom: none;
+cursor: pointer;
 }
 
 /* end css tabs */

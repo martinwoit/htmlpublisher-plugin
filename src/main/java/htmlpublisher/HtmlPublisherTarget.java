@@ -49,6 +49,11 @@ public class HtmlPublisherTarget extends AbstractDescribableImpl<HtmlPublisherTa
     private final String reportFiles;
 
     /**
+     * The regex to mark the tabs red in html wrapper.
+     */
+    private final String failureRegex;
+
+    /**
      * If this is true and keepAll is true, publish the link on project level even if build failed.
      */
     private final boolean alwaysLinkToLastBuild;
@@ -75,11 +80,11 @@ public class HtmlPublisherTarget extends AbstractDescribableImpl<HtmlPublisherTa
     private static final String WRAPPER_NAME = "htmlpublisher-wrapper.html";
 
     /**
-     * @deprecated Use {@link #HtmlPublisherTarget(java.lang.String, java.lang.String, java.lang.String, boolean, boolean, boolean)}. 
+     * @deprecated Use {@link #HtmlPublisherTarget(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, boolean, boolean)}.
      */
     @Deprecated
-    public HtmlPublisherTarget(String reportName, String reportDir, String reportFiles, boolean keepAll, boolean allowMissing) {
-        this(reportName, reportDir, reportFiles, keepAll, false, allowMissing);
+    public HtmlPublisherTarget(String reportName, String reportDir, String reportFiles, String failureRegex, boolean keepAll, boolean allowMissing) {
+        this(reportName, reportDir, reportFiles, failureRegex, keepAll, false, allowMissing);
     }
 
     /**
@@ -87,6 +92,7 @@ public class HtmlPublisherTarget extends AbstractDescribableImpl<HtmlPublisherTa
      * @param reportName Report name
      * @param reportDir Source directory in the job workspace
      * @param reportFiles Files to be published
+     * @param failureRegex Regex to mark failed reports
      * @param keepAll True if the report should be stored for all builds
      * @param alwaysLinkToLastBuild If true, the job action will refer the latest build.
      *      Otherwise, the latest successful one will be referenced
@@ -94,10 +100,11 @@ public class HtmlPublisherTarget extends AbstractDescribableImpl<HtmlPublisherTa
      * @since 1.4
      */
     @DataBoundConstructor
-    public HtmlPublisherTarget(String reportName, String reportDir, String reportFiles, boolean keepAll, boolean alwaysLinkToLastBuild, boolean allowMissing) {
+    public HtmlPublisherTarget(String reportName, String reportDir, String reportFiles, String failureRegex, boolean keepAll, boolean alwaysLinkToLastBuild, boolean allowMissing) {
         this.reportName = reportName;
         this.reportDir = reportDir;
         this.reportFiles = reportFiles;
+        this.failureRegex = failureRegex;
         this.keepAll = keepAll;
         this.alwaysLinkToLastBuild = alwaysLinkToLastBuild;
         this.allowMissing = allowMissing;
@@ -113,6 +120,10 @@ public class HtmlPublisherTarget extends AbstractDescribableImpl<HtmlPublisherTa
 
     public String getReportFiles() {
         return this.reportFiles;
+    }
+
+    public String getFailureRegex() {
+        return this.failureRegex;
     }
 
     public boolean getAlwaysLinkToLastBuild() {
@@ -344,6 +355,7 @@ public class HtmlPublisherTarget extends AbstractDescribableImpl<HtmlPublisherTa
         hash = 97 * hash + (this.reportName != null ? this.reportName.hashCode() : 0);
         hash = 97 * hash + (this.reportDir != null ? this.reportDir.hashCode() : 0);
         hash = 97 * hash + (this.reportFiles != null ? this.reportFiles.hashCode() : 0);
+        hash = 97 * hash + (this.failureRegex != null ? this.failureRegex.hashCode() : 0);
         hash = 97 * hash + (this.alwaysLinkToLastBuild ? 1 : 0);
         hash = 97 * hash + (this.keepAll ? 1 : 0);
         hash = 97 * hash + (this.allowMissing ? 1 : 0);
@@ -366,6 +378,9 @@ public class HtmlPublisherTarget extends AbstractDescribableImpl<HtmlPublisherTa
             return false;
         }
         if ((this.reportFiles == null) ? (other.reportFiles != null) : !this.reportFiles.equals(other.reportFiles)) {
+            return false;
+        }
+        if ((this.failureRegex == null) ? (other.failureRegex != null) : !this.failureRegex.equals(other.failureRegex)) {
             return false;
         }
         if (this.alwaysLinkToLastBuild != other.alwaysLinkToLastBuild) {

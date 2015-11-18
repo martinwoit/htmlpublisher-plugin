@@ -14,6 +14,10 @@
     <f:textbox default="HTML Report"/>
   </f:entry>
 
+  <f:entry field="failureRegex" title="${%failureRegex.title}">
+      <f:textbox default="^.+?\d+\ssteps\s\([1-9]\d*\sfailed.+"/>
+  </f:entry>
+
   <f:advanced title="${%Publishing options}"> 
     <f:entry field="keepAll" title="${%keepAll.title}">
       <f:checkbox />
